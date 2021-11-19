@@ -5,8 +5,8 @@ const
   
 class Database {
   constructor(directory = 'database.json', defaultOptions) {
-    if (!directory || typeof directory !== 'string') throw new Error();
-    if (!directory.endsWith('.json')) throw new Error();
+    if (!directory || typeof directory !== 'string') throw new TypeError('Please provide a valid directory. Received:' + directory);
+    if (!directory.endsWith('.json')) throw new TypeError('The directory must have a .json extension!');
     
     this.directory = _resolveDirectory(directory);
     this.defaultOptions = {
@@ -22,13 +22,13 @@ class Database {
   }
   
   set(path, value, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
-    if (!value && value !== 0) throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
+    if (!value && value !== 0) throw new TypeError('You have not provided a valid value!');
     _resolveDirectory(this.directory);
     
     let { directory, defaultOptions } = this;
     if (path == defaultOptions.split) {
-      if (value !== 'object') throw new Error();
+      if (value !== 'object') throw new TypeError('To perform this action, the value must be an object!');
     }
     
     let data = object.set(this[storageSymbol], path, value, defaultOptions.split);
@@ -41,7 +41,7 @@ class Database {
   }
   
   get(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let { split } = this.defaultOptions;
@@ -51,8 +51,8 @@ class Database {
   }
   
   update(path, value, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
-    if (!value || typeof value !== 'object') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
+    if (!value || typeof value !== 'object') throw new TypeError('To perform this action, the value must be an object!');
     _resolveDirectory(this.directory);
     
     let
@@ -67,7 +67,7 @@ class Database {
   }
   
   delete(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let
@@ -82,8 +82,8 @@ class Database {
   }
   
   push(path, value, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
-    if (!value && value !== 0) throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
+    if (!value && value !== 0) throw new TypeError('You have not provided a valid value!');
     _resolveDirectory(this.directory);
     
     let
@@ -98,7 +98,7 @@ class Database {
   }
   
   has(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let
@@ -112,7 +112,7 @@ class Database {
   }
   
   keys(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let
@@ -122,7 +122,7 @@ class Database {
   }
   
   values(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let
@@ -132,7 +132,7 @@ class Database {
   }
   
   entries(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let
@@ -142,7 +142,7 @@ class Database {
   }
   
   toJSON(path, callback) {
-    if (!path || typeof path !== 'string') throw new Error();
+    if (!path || typeof path !== 'string') throw new TypeError('Please provide a valid path!');
     _resolveDirectory(this.directory);
     
     let

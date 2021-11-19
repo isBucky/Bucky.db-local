@@ -99,7 +99,7 @@ const
   
 db.set('db', { name: 'bucky.db-local', type: 'local' }).save();
 let data = db.delete('db/name');
-console.log(data.save());
+console.log(data.save()); // Output: true
 ```
 
 ## Push:
@@ -109,7 +109,7 @@ const
   db = new Database();
   
 let data = db.push('db', [{ type: 'local' }, { name: 'bucky.db-local' }]);
-console.log(data.dataValues); // { db: [ { type: 'local' }, { name: 'bucky.db-local' } ] }
+console.log(data.dataValues); // Output: { db: [ { type: 'local' }, { name: 'bucky.db-local' } ] }
 console.log(data.save()); // Output: true
 ```
 
@@ -168,7 +168,7 @@ const
   
 db.set('db', { name: 'bucky.db-local', type: 'local' });
 let data = db.entries('db');
-console.log(data); // 
+console.log(data); // Output: [ [ 'name', 'bucky.db-local' ], [ 'type', 'local' ] ]
 ```
 
 ## ToJSON:
