@@ -1,0 +1,28 @@
+{
+  "name": "bucky.db-local",
+  "version": "1.0.0",
+  "description": "An npm that creates a local database in your json project",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B4CKY0FC/bucky.db-local.git"
+  },
+  "keywords": [
+    "db", "local", "db-local",
+    "database", "local-db"
+  ],
+  "author": "@bucky.br",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/B4CKY0FC/bucky.db-local/issues"
+  },
+  "homepage": "https://github.com/B4CKY0FC/bucky.db-local#readme",
+  "dependencies": {
+    "bucky.js": "^1.0.2",
+    "object.mn": "^1.x"
+  },
+  "engines": {
+    "node": ">=16.6.0",
+    "npm": ">=7.0.0"
+  }
+}
