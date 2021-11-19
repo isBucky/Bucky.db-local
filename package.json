@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/B4CKY0FC/bucky.db-local#readme",
   "dependencies": {
-    "bucky.js": "^1.0.2",
+    "bucky.js": "^1.x",
     "object.mn": "^1.x"
   },
   "engines": {

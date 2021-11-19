@@ -52,5 +52,123 @@ const
 | `entries` | `path` `callback` |
 | `toJSON` | `path` `callback` |
 
+# Examples:
+## Set:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+let data = db.set('db', 'local');
 
+// It will show the data information along with a function called "save".
+// If you don't use the save function, the data will be saved in the cache.
+console.log(data);
 
+console.log(data.save()); // Output: true. Value: Boolean
+```
+
+## Get:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+db.set('db', 'local').save();
+let data = db.get('db');
+console.log(data); // Output: local
+```
+
+## Update:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+db.set('db', { type: 'local' }).save();
+let data = db.update('db', { name: 'bucky.db-local' });
+console.log(data.dataValues); // { db: { type: 'local', name: 'bucky.db-local' } }
+console.log(data.save()); // Output: true
+```
+
+## Delete:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+db.set('db', { name: 'bucky.db-local', type: 'local' }).save();
+let data = db.delete('db/name');
+console.log(data.save());
+```
+
+## Push:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+let data = db.push('db', [{ type: 'local' }, { name: 'bucky.db-local' }]);
+console.log(data.dataValues); // { db: [ { type: 'local' }, { name: 'bucky.db-local' } ] }
+console.log(data.save()); // Output: true
+```
+
+## Has:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+let data1 = db.has('db');
+
+db.set('db', 'local').save();
+let date2 = db.has('db');
+
+console.log(data1); // Output: false
+console.log(data2); // Output: true
+```
+
+## All:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+
+```
+
+## Keys:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+
+```
+
+## Values:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+
+```
+
+## Entries:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+
+```
+
+## ToJSON:
+```js
+const
+  { Database } = require('bucky.db-local'),
+  db = new Database();
+  
+
+```

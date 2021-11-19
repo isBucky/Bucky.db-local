@@ -32,7 +32,8 @@ class Database {
     }
     
     let data = object.set(this[storageSymbol], path, value, defaultOptions.split);
-    return _resolveCallback({ data,
+    return _resolveCallback({
+      dataValues: data,
       save() {
         return _writeData(directory, data, defaultOptions);
       }
@@ -57,7 +58,8 @@ class Database {
     let
       { directory, defaultOptions } = this,
       data = object.update(this[storageSymbol], path, value, defaultOptions.split);
-    return _resolveCallback({ data,
+    return _resolveCallback({
+      dataValues: data,
       save() {
         return _writeData(directory, data, defaultOptions);
       }
@@ -71,7 +73,8 @@ class Database {
     let
       { directory, defaultOptions } = this,
       data = object.delete(this[storageSymbol], path, defaultOptions.split);
-    return _resolveCallback({ data,
+    return _resolveCallback({
+      dataValues: data,
       save() {
         return _writeData(directory, data, defaultOptions);
       }
@@ -86,7 +89,8 @@ class Database {
     let
       { directory, defaultOptions } = this,
       data = object.push(this[storageSymbol], path, value, defaultOptions.split);
-    return _resolveCallback({data,
+    return _resolveCallback({
+      dataValues: data,
       save() {
         return _writeData(directory, data, defaultOptions);
       }
