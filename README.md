@@ -134,7 +134,8 @@ const
   { Database } = require('bucky.db-local'),
   db = new Database();
   
-
+let data = db.all();
+console.log(data); // It will show all values from your database.
 ```
 
 ## Keys:
@@ -143,7 +144,9 @@ const
   { Database } = require('bucky.db-local'),
   db = new Database();
   
-
+db.set('db', { name: 'bucky.db-local', type: 'local' });
+let data = db.keys('db');
+console.log(data); // Output: [ 'name', 'type' ]
 ```
 
 ## Values:
@@ -152,7 +155,9 @@ const
   { Database } = require('bucky.db-local'),
   db = new Database();
   
-
+db.set('db', { name: 'bucky.db-local', type: 'local' });
+let data = db.values('db');
+console.log(data); // Output: [ 'bucky.db-local', 'local' ]
 ```
 
 ## Entries:
@@ -161,7 +166,9 @@ const
   { Database } = require('bucky.db-local'),
   db = new Database();
   
-
+db.set('db', { name: 'bucky.db-local', type: 'local' });
+let data = db.entries('db');
+console.log(data); // 
 ```
 
 ## ToJSON:
@@ -170,5 +177,7 @@ const
   { Database } = require('bucky.db-local'),
   db = new Database();
   
-
+db.set('db', { name: 'bucky.db-local', type: 'local' });
+let data = db.toJSON('db');
+console.log(data); // Output: {"name":"bucky.db-local","type":"local"}
 ```
