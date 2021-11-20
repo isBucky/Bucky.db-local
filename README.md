@@ -53,17 +53,17 @@ const
 # Functions:
 | Name | Params |
 | ------ | -------- |
-| `set` | `path` `values` `callback` |
-| `get` | `path` `callback` |
-| `update` | `path` `values` `callback` |
-| `delete` | `path` `callback` |
-| `push` | `path` `values` `callback` |
-| `has` | `path` `callback` |
-| `all` | `path` `callback` |
-| `keys` | `path` `callback` |
-| `values` | `path` `callback` |
-| `entries` | `path` `callback` |
-| `toJSON` | `path` `callback` |
+| **set** | `path` `values` `callback` |
+| **get** | `path` `callback` |
+| **update** | `path` `values` `callback` |
+| **delete** | `path` `callback` |
+| **push** | `path` `values` `callback` |
+| **has** | `path` `callback` |
+| **all** | `path` `callback` |
+| **keys** | `path` `callback` |
+| **values** | `path` `callback` |
+| **entries** | `path` `callback` |
+| **toJSON** | `path` `callback` |
 
 # Examples:
 ## Set:
