@@ -42,15 +42,13 @@ const
 ```
 
 ## Options to configure:
-- **Directory:** File path where the database should be.
-- **╰Default directory:** "./Database.json"
--
-- **ObjectNotation:** Define which object notation.
-- **╰Default object notation:** "/"
--
-- **Serialize:** You can use this function to encrypt information.
-- **Deserialize:** You can use this function to decrypt the information.
-- **Defaults:** When the database is created, it will be created with these values.
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| `directory` | `File path where the database should be.` | `./Database.json` |
+| `objectNotation` | `Define which object notation.` | `/` |
+| `Serialize` | `You can use this function to encrypt information.` | `false` |
+| `Deserialize` | `You can use this function to decrypt the information.` | `false` |
+| `Defaults` | `When the database is created, it will be created with these values.` | `false` |
 
 # Functions:
 | Name | Params |
