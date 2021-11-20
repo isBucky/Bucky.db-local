@@ -44,7 +44,7 @@ const
 ## Options to configure:
 | Name | Description | Default |
 | ---- | ----------- | ------- |
-| `directory` | `File path where the database should be.` | `./Database.json` |
+| directory | `File path where the database should be.` | `./Database.json` |
 | `objectNotation` | `Define which object notation.` | `/` |
 | `Serialize` | `You can use this function to encrypt information.` | `false` |
 | `Deserialize` | `You can use this function to decrypt the information.` | `false` |
