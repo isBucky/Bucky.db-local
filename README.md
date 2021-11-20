@@ -41,6 +41,7 @@ const
   }));
 ```
 
+## Options to configure:
 - **Directory:** File path where the database should be.
 - **╰Default directory:** "./Database.json"
 - **ObjectNotation:** Define which object notation.
