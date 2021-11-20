@@ -24,18 +24,30 @@ yarn add bucky.db-local
 - The set, update, delete and push functions have a function called “save”, if you do not use this function, the data will only be in the database cache, to save, just run the function.
 
 # Setting up database:
+## There are two ways to configure:
 ```js
 const
   { Database } = require('bucky.db-local'),
-  db = new Database(null, { // Default path: database.json
-    split: '.',
-    space: 0
+  db = new Database({
+    // [...]
   });
+
+// Or
+
+const
+  { Database, Config } = require('bucky.db-local'),
+  db = new Database(new Config({
+    // [...]
+  }));
 ```
 
-- **Path:** Defines a path where your local database will be.
-- **Split:** Defines an object notation to split at query time. Default: /
-- **Space:** Use to define how much space you want from one data value to another. Default: 2
+- **Directory:** File path where the database should be.
+- **╰Default directory:** "./Database.json"
+- **ObjectNotation:** Define which object notation.
+- **╰Default object notation:** "/"
+- **Serialize:** You can use this function to encrypt information.
+- **Deserialize:** You can use this function to decrypt the information.
+- **Defaults:** When the database is created, it will be created with these values.
 
 # Functions:
 | Name | Params |

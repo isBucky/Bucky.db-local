@@ -1,6 +1,6 @@
 {
   "name": "bucky.db-local",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An npm that creates a local database in your json project",
   "main": "index.js",
   "repository": {
@@ -12,7 +12,8 @@
     "local",
     "db-local",
     "database",
-    "local-db"
+    "local-db",
+    "bucky"
   ],
   "author": "@bucky.br",
   "license": "MIT",
