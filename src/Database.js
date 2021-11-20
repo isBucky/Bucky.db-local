@@ -18,6 +18,9 @@ class Database {
     this.Config = options ?? new Config();
     this.Util = new Util(this.Config);
     this[SymbolCache] = this.Util.read();
+    
+    if (this.Config.defaults)
+      Object.assign(this[SymbolCache], this.Config.defaults);
   }
   
   set(path, value, callback) {

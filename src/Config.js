@@ -13,7 +13,7 @@ class Config {
     this.objectNotation = options?.objectNotation ?? '/';
     
     if (options?.serialize && typeof options?.serialize !== 'function') throw new DatabaseError('The serialize option can only be set with one function!');
-    this.serialize = options?.serialize ?? JSON.stringify;
+    this.serialize = options?.serialize ?? (data => data);
     
     if (options?.deserialize && typeof options?.deserialize !== 'function') throw new DatabaseError('The deserialize option can only be set with one function!');
     this.deserialize = options?.deserialize ?? JSON.parse;

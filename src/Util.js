@@ -43,7 +43,8 @@ class Util {
       if (bucky.isEmptyFile(this.directory)) this.init();
       let data = fs.readFileSync(this.directory, 'utf8');
       if (!data || !data.length) return {};
-      return this.deserialize(data);
+      data = this.deserialize(data);
+      return JSON.parse(data);
     } this.init(); return {};
   }
   
