@@ -18,10 +18,10 @@ yarn add bucky.db-local
 ```
 
 # Important informations:
-- This npm uses node v16.6.0 or higher, another version below this may result in unexpected errors.
-- To better understand how to use the functions, take a good look at the examples below the list of available functions!
-- All npm functions have the option for you to use a callback return, it is not mandatory.
-- The set, update, delete and push functions have a function called “save”, if you do not use this function, the data will only be in the database cache, to save, just run the function.
+- **This npm uses node v16.6.0 or higher, another version below this may result in unexpected errors.**
+- **To better understand how to use the functions, take a good look at the examples below the list of available functions!**
+- **All npm functions have the option for you to use a callback return, it is not mandatory.**
+- **The set, update, delete and push functions have a function called “save”, if you do not use this function, the data will only be in the database cache, to save, just run the function.**
 
 # Setting up database:
 ## There are two ways to configure:
