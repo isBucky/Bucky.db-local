@@ -1,6 +1,7 @@
 'use strict';
 
 const
+  DatabaseError = require('./DatabaseError.js'),
   bucky = require('bucky.js'),
   path = require('node:path'),
   fs = require('node:fs');
@@ -39,13 +40,22 @@ class Util {
   }
   
   read() {
+    this.init();
+    
     if (fs.existsSync(this.directory)) {
-      if (bucky.isEmptyFile(this.directory)) this.init();
-      let data = fs.readFileSync(this.directory, 'utf8');
-      if (!data || !data.length) return {};
-      data = this.deserialize(data);
-      return JSON.parse(data);
-    } this.init(); return {};
+      try {
+        if (bucky.isEmptyFile(this.directory)) this.init();
+        let data = fs.readFileSync(this.directory, 'utf8');
+        if (!data || !data.length) return {};
+        
+        data = this.deserialize(data);
+        return JSON.parse(JSON.stringify(data));
+      } catch(err) {
+        throw new DatabaseError('An error occurred while trying to read the file, make sure you haven\'t moved anything!');
+      }
+    }
+    
+    return {};
   }
   
   callback(data, callback) {

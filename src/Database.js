@@ -2,8 +2,7 @@
 
 const
   object = require('object.mn'),
-  Util = require('./Util.js'),
-  path = require('path');
+  Util = require('./Util.js');
   
 const
   SymbolCache = Symbol('Cache'),
@@ -18,24 +17,21 @@ class Database {
     this.Config = options ?? new Config();
     this.Util = new Util(this.Config);
     this[SymbolCache] = this.Util.read();
-    
-    if (this.Config.defaults)
-      Object.assign(this[SymbolCache], this.Config.defaults);
   }
   
   set(path, value, callback) {
     if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
     if (!value && value !== 0) throw new DatabaseError('You have not provided a valid value!');
+    let { Util, Config, [SymbolCache]: cache, set } = this;
+    Util.init();
     
-    let { Util, Config } = this; Util.init();
-    
-    if (path == Config.split) {
+    if (path == Config.objectNotation) {
       if (value !== 'object') throw new DatabaseError('To perform this action, the value must be an object!');
     }
     
     return Util.callback({
-      dataValues: object.set(this[SymbolCache], path, value, Config.split),
-      save() { return Util.write(this.dataValues); }
+      dataValues: object.set(cache, path, value, Config.objectNotation),
+      save() { return Util.write(cache); }
     }, callback);
   }
   
@@ -44,7 +40,7 @@ class Database {
     this.Util.init();
     
     return this.Util.callback(
-      object.get(this[SymbolCache], path, this.Config.split),
+      object.get(this[SymbolCache], path, this.Config.objectNotation),
       callback
    );
   }
@@ -52,32 +48,32 @@ class Database {
   update(path, value, callback) {
     if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
     if (!value || typeof value !== 'object') throw new DatabaseError('To perform this action, the value must be an object!');
-    let { Util, Config } = this; Util.init();
+    let { Util, Config, [SymbolCache]: cache } = this; Util.init();
     
     return Util.callback({
-      dataValues: object.update(this[SymbolCache], path, value, Config.split),
-      save() { return Util.write(this.dataValues); }
+      dataValues: object.update(cache, path, value, Config.objectNotation),
+      save() { return Util.write(cache); }
     }, callback);
   }
   
   delete(path, callback) {
     if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    let { Util, Config } = this; Util.init();
+    let { Util, Config, [SymbolCache]: cache } = this; Util.init();
     
     return Util.callback({
-      dataValues: object.delete(this[SymbolCache], path, Config.split),
-      save() { return Util.write(this.dataValues); }
+      dataValues: object.delete(cache, path, Config.objectNotation),
+      save() { return Util.write(cache); }
     }, callback);
   }
   
   push(path, value, callback) {
     if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
     if (!value && value !== 0) throw new DatabaseError('You have not provided a valid value!');
-    let { Util, Config } = this; Util.init();
+    let { Util, Config, [SymbolCache]: cache } = this; Util.init();
     
     return Util.callback({
-      dataValues: object.push(this[SymbolCache], path, value, Config.split),
-      save() { return Util.write(this.dataValues); }
+      dataValues: object.push(cache, path, value, Config.objectNotation),
+      save() { return Util.write(cache); }
     }, callback);
   }
   
@@ -86,7 +82,7 @@ class Database {
     this.Util.init();
     
     return this.Util.callback(
-      object.has(this[SymbolCache], path, this.Config.split),
+      object.has(this[SymbolCache], path, this.Config.objectNotation),
       callback
     );
   }
@@ -100,7 +96,7 @@ class Database {
     this.Util.init();
     
     return this.Util.callback(
-      object.keys(this[SymbolCache], path, this.Config.split),
+      object.keys(this[SymbolCache], path, this.Config.objectNotation),
       callback
     );
   }
@@ -110,7 +106,7 @@ class Database {
     this.Util.init();
     
     return this.Util.callback(
-      object.values(this[SymbolCache], path, this.Config.split),
+      object.values(this[SymbolCache], path, this.Config.objectNotation),
       callback
     );
   }
@@ -120,7 +116,7 @@ class Database {
     this.Util.init();
     
     return this.Util.callback(
-      object.entries(this[SymbolCache], path, this.Config.split),
+      object.entries(this[SymbolCache], path, this.Config.objectNotation),
       callback
     );
   }
@@ -130,7 +126,7 @@ class Database {
     this.Util.init();
     
     return this.Util.callback(
-      object.toJSON(this[SymbolCache], path, this.Config.split),
+      object.toJSON(this[SymbolCache], path, this.Config.objectNotation),
       callback
     );
   }
