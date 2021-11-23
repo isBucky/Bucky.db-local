@@ -2,7 +2,7 @@
 
 const
   DatabaseError = require('./DatabaseError.js'),
-  path = require('node:path');
+  path = require('path');
   
 class Config {
   constructor(options) {

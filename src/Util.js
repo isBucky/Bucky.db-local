@@ -3,8 +3,8 @@
 const
   DatabaseError = require('./DatabaseError.js'),
   bucky = require('bucky.js'),
-  path = require('node:path'),
-  fs = require('node:fs');
+  path = require('path'),
+  fs = require('fs');
   
 class Util {
   constructor(options) {
