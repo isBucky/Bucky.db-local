@@ -3,10 +3,10 @@
 const
   DatabaseError = require('./DatabaseError.js'),
   bucky = require('bucky.js'),
-  path = require('path'),
-  fs = require('fs');
+  path = require('node:path'),
+  fs = require('node:fs');
   
-class Util {
+class Manager {
   constructor(options) {
     this.directory = options.directory;
     this.serialize = options.serialize;
@@ -16,25 +16,18 @@ class Util {
   
   init() {
     try {
-      let
-        defaults = this.defaults,
+      let defaults = this.defaults,
         filePath = this.directory,
-        directorys = filePath.split('/');
+        directory = filePath.split('/');
         
-      directorys.pop();
-      directorys = directorys.join('/');
+      directory.pop();
+      directory = directory.join('/');
       filePath = path.resolve(filePath);
       
-      if (defaults) defaults = this.serialize(
-        JSON.stringify(defaults, null, 2)
-      ) ?? '';
+      if (defaults) defaults = this.serialize(JSON.stringify(defaults, null, 2)) ?? '';
+      if (directory.length && !fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true });
+      if (!bucky.isFile(filePath) || bucky.isEmptyFile(filePath)) fs.writeFileSync(filePath, defaults);
       
-      if (directorys.length && !fs.existsSync(directorys))
-        fs.mkdirSync(directorys, { recursive: true });
-        
-      if (!bucky.isFile(filePath) || bucky.isEmptyFile(filePath))
-        fs.writeFileSync(filePath, defaults);
-        
       return filePath;
     } catch(err) {}
   }
@@ -58,12 +51,6 @@ class Util {
     return {};
   }
   
-  callback(data, callback) {
-    if (callback && typeof callback == 'function')
-      return callback(data);
-    else return data;
-  }
-  
   write(data = {}) {
     try {
       this.init();
@@ -75,4 +62,4 @@ class Util {
   }
 }
 
-module.exports = Util;
+module.exports = Manager;

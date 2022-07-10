@@ -1,134 +1,106 @@
 'use strict';
 
-const
-  object = require('object.mn'),
-  Util = require('./Util.js');
-  
-const
-  SymbolCache = Symbol('Cache'),
-  Config = require('./Config.js'),
-  DatabaseError = require('./DatabaseError.js');
+const DatabaseError = require('./DatabaseError.js'),
+  ObjectManager = require('object.mn'),
+  Manager = require('./Manager.js'),
+  Config = require('./Config.js');
   
 class Database {
   constructor(options) {
-    if (typeof options == 'object') options = new Config(options);
-    if (options && !(options instanceof Config)) throw new DatabaseError('Settings options have to be an object!');
+    options = new Config(options);
     
-    this.Config = options ?? new Config();
-    this.Util = new Util(this.Config);
-    this[SymbolCache] = this.Util.read();
+    this.options = options;
+    Object.defineProperty(this, 'manager', {
+      value: new Manager(this.options)
+    });
+    this.cache = new ObjectManager(this.manager.read(), options.objectNotation);
+    
+    this.manager.init();
   }
   
-  set(path, value, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    if (!value && value !== 0) throw new DatabaseError('You have not provided a valid value!');
-    let { Util, Config, [SymbolCache]: cache, set } = this;
-    Util.init();
+  set(...params) {
+    let { path, value, callbackData } = this.#resolveParams(true, ...params);
+    if (
+      !(path.split(this.options.objectNotation).filter(Boolean)).length &&
+      typeof value !== 'object'
+    ) throw new DatabaseError('For this the value has to be an object, received:', typeof value);
     
-    if (path == Config.objectNotation) {
-      if (value !== 'object') throw new DatabaseError('To perform this action, the value must be an object!');
-    }
-    
-    return Util.callback({
-      dataValues: object.set(cache, path, value, Config.objectNotation),
-      save() { return Util.write(cache); }
-    }, callback);
+    return this.#resolveCallback(true, callbackData, this.cache.set(path, value));
   }
   
-  get(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    this.Util.init();
-    
-    return this.Util.callback(
-      object.get(this[SymbolCache], path, this.Config.objectNotation),
-      callback
-   );
+  get(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(false, callbackData, this.cache.get(path));
   }
   
-  update(path, value, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    if (!value || typeof value !== 'object') throw new DatabaseError('To perform this action, the value must be an object!');
-    let { Util, Config, [SymbolCache]: cache } = this; Util.init();
+  update(...params) {
+    let { path, value, callbackData } = this.#resolveParams(true, ...params);
+    if (
+      !(path.split(this.options.objectNotation).filter(Boolean)).length &&
+      typeof value !== 'object'
+    ) throw new DatabaseError('For this the value has to be an object, received:', typeof value);
     
-    return Util.callback({
-      dataValues: object.update(cache, path, value, Config.objectNotation),
-      save() { return Util.write(cache); }
-    }, callback);
+    return this.#resolveCallback(true, callbackData, this.cache.update(path, value));
   }
   
-  delete(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    let { Util, Config, [SymbolCache]: cache } = this; Util.init();
-    
-    return Util.callback({
-      dataValues: object.delete(cache, path, Config.objectNotation),
-      save() { return Util.write(cache); }
-    }, callback);
+  delete(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(true, callbackData, this.cache.delete(path));
   }
   
-  push(path, value, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    if (!value && value !== 0) throw new DatabaseError('You have not provided a valid value!');
-    let { Util, Config, [SymbolCache]: cache } = this; Util.init();
-    
-    return Util.callback({
-      dataValues: object.push(cache, path, value, Config.objectNotation),
-      save() { return Util.write(cache); }
-    }, callback);
+  push(...params) {
+    let { path, value, callbackData } = this.#resolveParams(true, ...params);
+    return this.#resolveCallback(true, callbackData, this.cache.push(path, value));
   }
   
-  has(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    this.Util.init();
-    
-    return this.Util.callback(
-      object.has(this[SymbolCache], path, this.Config.objectNotation),
-      callback
-    );
+  has(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(false, callbackData, this.cache.has(path));
   }
   
-  all(callback) {
-    return this.Util.callback([this[SymbolCache]], callback);
+  all(callbackData) {
+    return this.#resolveCallback(false, callbackData, this.cache.get('/'));
   }
   
-  keys(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    this.Util.init();
-    
-    return this.Util.callback(
-      object.keys(this[SymbolCache], path, this.Config.objectNotation),
-      callback
-    );
+  keys(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(false, callbackData, this.cache.keys(path));
   }
   
-  values(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    this.Util.init();
-    
-    return this.Util.callback(
-      object.values(this[SymbolCache], path, this.Config.objectNotation),
-      callback
-    );
+  values(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(false, callbackData, this.cache.values(path));
   }
   
-  entries(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    this.Util.init();
-    
-    return this.Util.callback(
-      object.entries(this[SymbolCache], path, this.Config.objectNotation),
-      callback
-    );
+  entries(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(false, callbackData, this.cache.entries(path));
   }
   
-  toJSON(path, callback) {
-    if (!path || typeof path !== 'string') throw new DatabaseError('Please provide a valid path!');
-    this.Util.init();
+  toJSON(...params) {
+    let { path, callbackData } = this.#resolveParams(false, ...params);
+    return this.#resolveCallback(false, callbackData, this.cache.toJSON(path));
+  }
+  
+  #resolveParams(requiredValue, ...params) {
+    let [path, value, callbackData] = params;
     
-    return this.Util.callback(
-      object.toJSON(this[SymbolCache], path, this.Config.objectNotation),
-      callback
-    );
+    if (!path || typeof path !== 'string') throw new DatabaseError('The path has to be a string, reveived:', typeof path);
+    if (requiredValue && !value && value !== 0) throw new DatabaseError('You have not set a valid value, received:', typeof value);
+    if (requiredValue && typeof value == 'function') throw new DatabaseError('The value cannot be of type Function!');
+    
+    return { path, value, callbackData };
+  }
+  
+  #resolveCallback(save, callbackData, data) {
+    let { manager, cache } = this;
+    if (save) data = {
+      dataValues: data,
+      save() { return manager.write(cache.get('/')); }
+    };
+    
+    if (callbackData && typeof callbackData == 'function') return callbackData(data);
+    return data;
   }
 }
 

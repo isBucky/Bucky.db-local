@@ -1,6 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+exports = module.exports = require('./src/Database.js');
 exports.version = require('./package.json').version;
-exports.Database = require('./src/Database.js');
 exports.Config = require('./src/Config.js');
