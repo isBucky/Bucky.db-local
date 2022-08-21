@@ -41,8 +41,7 @@ class Manager {
         let data = fs.readFileSync(this.directory, 'utf8');
         if (!data || !data.length) return {};
         
-        data = this.deserialize(data);
-        return JSON.parse(JSON.stringify(data));
+        return JSON.parse(JSON.stringify(this.deserialize(data)));
       } catch(err) {
         throw new DatabaseError('An error occurred while trying to read the file, make sure you haven\'t moved anything!');
       }

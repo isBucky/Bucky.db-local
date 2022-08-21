@@ -93,12 +93,7 @@ class Database {
   }
   
   #resolveCallback(save, callbackData, data) {
-    let { manager, cache } = this;
-    if (save) data = {
-      dataValues: data,
-      save() { return manager.write(cache.get('/')); }
-    };
-    
+    if (save) this.manager.write(this.cache.get('/'));
     if (callbackData && typeof callbackData == 'function') return callbackData(data);
     return data;
   }
