@@ -1,6 +1,6 @@
 {
   "name": "bucky.db-local",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "An npm that creates a local database in your json project",
   "main": "index.js",
   "repository": {
@@ -23,7 +23,7 @@
   "homepage": "https://github.com/isBucky/bucky.db-local#readme",
   "dependencies": {
     "bucky.js": "^1.1.3",
-    "object.mn": "^1.1.8"
+    "object.mn": "^1.1.9"
   },
   "engines": {
     "node": ">=14.17.1",
