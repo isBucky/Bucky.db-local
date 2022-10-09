@@ -1,5 +1,5 @@
-class ErrorTemplate extends Error {
-  constructor(...values) {
+class ErrorTemplate extends TypeError {
+  constructor(...values: any[]) {
     super(values.join(' '));
     this.message = values.join(' ');
   }
@@ -9,5 +9,4 @@ class ErrorTemplate extends Error {
   }
 }
 
-class DatabaseError extends ErrorTemplate {}
-module.exports = DatabaseError;
+export class DatabaseError extends ErrorTemplate {}
